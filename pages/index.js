@@ -177,7 +177,7 @@ export default function Home() {
             color="white"
             textAlign="center"
           >
-            🧙‍♀️ Model is Loading 🧙‍♂️
+             Sign Language Interpreter 
           </Heading>
 
           <Box id="webcam-container">

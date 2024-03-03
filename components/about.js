@@ -31,20 +31,19 @@ export default function About() {
           <ModalCloseButton />
           <ModalBody>
             <Text fontSize="sm">
-              American Sign Language (ASL) is a visual language that serves as
-              the predominant sign language of Deaf communities in the United
-              States and most of Canada.<br></br>
-              Here's the list of ASL hand gestures for alphabet.
+              How to use:
+              <br></br>
+              Wait for the model to load, make gestures and a word will form.
             </Text>
             <Image src={handImages} />
             <Text fontSize="sm">
-              This sign language illustration is created by{" "}
+              This sign language interpreter is created by{" "}
               <Link
-                href="https://thenounproject.com/pelodrome/"
+                href="https://www.linkedin.com/in/eshan-jain-brils-4b73a620b/"
                 isExternal
                 color="orange.300"
               >
-                Pelin Kahraman
+                Eshan Jain Brils
               </Link>
             </Text>
           </ModalBody>
