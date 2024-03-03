@@ -5,7 +5,7 @@ import Webcam from "react-webcam";
 import { drawHand } from "../components/handposeutil";
 import * as fp from "fingerpose";
 import Handsigns from "../components/handsigns";
-import debounce from "lodash/debounce";
+
 import {
   Text,
   Heading,
@@ -40,7 +40,7 @@ export default function Home() {
 
     setInterval(() => {
       detect(net);
-    }, 150);
+    }, 300);
   }
 
   async function detect(net) {
@@ -177,7 +177,7 @@ export default function Home() {
             color="white"
             textAlign="center"
           >
-            🧙‍♀️ Loading the Magic 🧙‍♂️
+            🧙‍♀️ Model is Loading 🧙‍♂️
           </Heading>
 
           <Box id="webcam-container">
