@@ -30,7 +30,7 @@ export default function Home() {
   const canvasRef = useRef(null);
 
   const [camState, setCamState] = useState("on");
-  const [detectedLetters, setDetectedLetters] = useState([]); // Track detected letters
+  const [detectedLetters, setDetectedLetters] = useState([]);
   const [sign, setSign] = useState(null);
 
   let gamestate = "started";
@@ -112,7 +112,6 @@ export default function Home() {
 
           setSign(detectedLetter);
 
-          // Append the detected letter to the array without repetition
           setDetectedLetters((prevLetters) => {
             if (!prevLetters.includes(detectedLetter)) {
               return [...prevLetters, detectedLetter];
@@ -127,7 +126,6 @@ export default function Home() {
     }
   }
 
-  // Function to speak the detected letters
   function speakDetectedLetters() {
     const textToSpeak = detectedLetters.join("");
     if (window.speechSynthesis) {
@@ -136,13 +134,14 @@ export default function Home() {
     }
   }
 
-  // Function to clear detected letters
   function clearDetectedLetters() {
     setDetectedLetters([]);
   }
 
   useEffect(() => {
-    runHandpose();
+    if (typeof window !== "undefined") {
+      runHandpose();
+    }
   }, []);
 
   function turnOffCamera() {
@@ -156,7 +155,7 @@ export default function Home() {
   return (
     <ChakraProvider>
       <Metatags />
-      <Box bgColor="#5784BA">
+      <Box bgColor="#424244">
         <Container centerContent maxW="xl" height="100vh" pt="0" pb="0">
           <VStack spacing={4} align="center">
             <Box h="20px"></Box>
@@ -177,48 +176,38 @@ export default function Home() {
             color="white"
             textAlign="center"
           >
-             Sign Language Interpreter 
+            Sign Language Interpreter
           </Heading>
 
-          <Box id="webcam-container">
+          <Box
+            id="webcam-container"
+            style={{ position: "relative", width: "100vw", height: "90vh" }}
+            videoConstraints={{
+              width: typeof window !== "undefined" ? window.innerWidth : 800,
+              height: typeof window !== "undefined" ? window.innerHeight : 480,
+              facingMode: "user",
+            }}
+            
+          >
             {camState === "on" ? (
-              <Webcam id="webcam" ref={webcamRef} />
+              <Webcam
+                id="webcam"
+                ref={webcamRef}
+                style={{ width: "100%", height: "100%" }}
+             
+              />
             ) : (
-              <div id="webcam" background="black"></div>
-            )}
-
-            {sign ? (
               <div
-                style={{
-                  position: "absolute",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  right: "calc(50% - 50px)",
-                  bottom: 100,
-                  textAlign: "-webkit-center",
-                }}
-              >
-                <Text color="white" fontSize="sm" mb={1}>
-                  detected gestures
-                </Text>
-                <img
-                  alt="signImage"
-                  src={
-                    Signimage[sign]?.src
-                      ? Signimage[sign].src
-                      : "/loveyou_emoji.svg"
-                  }
-                  style={{
-                    height: 30,
-                  }}
-                />
-              </div>
-            ) : (
-              " "
+                id="webcam"
+                style={{ background: "black", width: "100%", height: "100%" }}
+              ></div>
             )}
+            <canvas
+              id="gesture-canvas"
+              ref={canvasRef}
+              style={{ position: "absolute", top: 300, left: 450 }}
+            />
           </Box>
-
-          <canvas id="gesture-canvas" ref={canvasRef} style={{}} />
         </Container>
         <Box
           id="singmoji"
@@ -237,7 +226,12 @@ export default function Home() {
           </Text>
         </Box>
 
-        <Stack id="start-button" spacing={4} direction="row" align="center">
+        <Stack
+          id="start-button"
+          spacing={4}
+          direction="row"
+          align="center"
+        >
           <Button
             leftIcon={
               camState === "on" ? (
